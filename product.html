@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html ng-app="store">
+  <head>
+    <meta charset="utf-8">
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="node_modules/angular/angular.min.js"></script>
+    <script type="text/javascript" src="app.js"></script>
+    <script src="node_modules/angular-sanitize/angular-sanitize.js"></script>
+    <script type="text/javascript" src="item-factory.js"></script>
+    <link type="text/css" rel="stylesheet" href="style.css" />
+    <link type="text/css" rel="stylesheet" href="slick/slick/slick.css" />
+    <link type="text/css" rel="stylesheet" href="slick/slick/slick-theme.css" />
+    <script src="slick/slick/slick.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css" />
+    <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="jquery_functions.js"></script>
+    <link rel="shortcut icon" type="image/png" href="http://cliparts.co/cliparts/6ip/oaa/6ipoaanKT.png">
+    <title>Ninja® Professional Blender & Nutri Ninja® Cups BL660 : Target</title>
+  </head>
+  <body ng-controller="ProductController as product">
+    <div class="image-tile col-sm-6">
+      <div class="product-name">{{product.productName}}</div>
+        <div class="slider-for">
+          <div class="featured-image" ng-repeat="image in product.images">
+            <img src="{{image.image}}" />
+          </div>
+        </div>
+        <div class="product-thumbs">
+          <div class="slider-nav">
+            <div class="thumb" ng-repeat="image in product.images">
+              <img src="{{image.image}}" />
+            </div>
+          </div>
+        </div>
+    </div>
+    <div class="info-tile col-sm-6">
+      <div class="price">
+        {{product.price}} <div class="price-restrictions">online prices</div>
+      </div>
+      <div class="divider"></div>
+      <ul>
+        <li class="promos" ng-repeat="promo in product.promotion">{{promo}}</li>
+      </ul>
+      <div class="divider"></div>
+      <div class="quant-picker" ng-show="product.available == 0 || product.available == 1 || product.available == 2">
+        <div class="quant">quantity:</div>
+        <span class="glyphicon-plus" ng-click="product.increaseQuant()"></span>
+        <div class="num">{{product.quantity}}</div>
+        <span class="glyphicon-minus" ng-click="product.decreaseQuant()"></span>
+      </div>
+      <div class="aligner">
+        <button class="pick-up" ng-show="product.available == 0 || product.available == 2" ng-click="product.order('/orderurl', true)">PICK UP IN STORE</button>
+        <button class="add-to-cart" ng-show="product.available == 0 || product.available == 2"  ng-click="product.order('/orderurl', true)">ADD TO CART</button>
+        <div class="store-find" ng-show="product.available == 0 || product.available == 1 || product.available == 2">find in a store</div>
+        <div class="returns">returns</div>
+        <div class="return-policy">This item must be returned within 30 days of the ship date. Ship return policy for details. Prices, promotions, styles and availability may vary by store and online.</div>
+        <div class="secondary-buttons" ng-show="product.available == 0 || product.available == 1 || product.available == 2">
+          <button class="registry" ng-click="product.order('/regurl')">ADD TO REGISTRY</button>
+          <button class="wish" ng-click="product.order('/wishurl')">ADD TO LIST</button>
+          <button class="share" ng-click="product.order('/shareurl')">SHARE</button>
+        </div>
+      </div>
+      <h1>product highlights</h1>
+      <ul>
+        <li ng-repeat="highlight in product.highlights" ng-bind-html="highlight">{{highlight}}</li>
+      </ul>
+    </div>
+
+    <div class="reviews-tile col-sm-6" ng-controller="ReviewController as review">
+      <div class="review-header">
+        <div class="stars" ng-bind-html="review.starHtml">{{review.starHtml}}</div>
+        <div class="overall">overall</div>
+        <div class="all-reviews-text pull-right" ng-click="review.toggleReviews()">
+          view all {{review.totalReviews}} reviews
+        </div>
+      </div>
+      <div class="review-container">
+        <div ng-show="review.showAll === false">
+          <div class="review-overview">
+            <div class="pro">
+              <div>PRO</div>
+              <span>Most helpful 4-5 star review</span>
+            </div>
+            <div class="con">
+              <div>CON</div>
+              <span>Most helpful 1-2 star review</span>
+            </div>
+          </div>
+          <div class="divider"></div>
+          <div class="pro-review">
+            <div class="review-stars" ng-bind-html="review.starPro">{{review.starPro}}</div>
+            <div class="review-title">{{review.proTitle}}</div>
+            <div class="review-body">{{review.proBody}}</div>
+            <div class="review-name">{{review.proReviewer}}</div>
+            <div class="review-date">{{review.proDate}}</div>
+          </div>
+          <div class="con-review">
+            <div class="review-stars" ng-bind-html="review.starCon">{{review.starCon}}</div>
+            <div class="review-title">{{review.conTitle}}</div>
+            <div class="review-body">{{review.conBody}}</div>
+            <div class="review-name">{{review.conReviewer}}</div>
+            <div class="review-date">{{review.proDate}}</div>
+          </div>
+        </div>
+        <div ng-show="review.showAll === true">
+          <div class="all-reviews" ng-repeat="review in review.allReviews">
+            <div class="review-stars" ng-bind-html="review.stars">{{review.stars}}</div>
+            <div class="review-title">{{review.title}}</div>
+            <div class="review-body">{{review.body}}</div>
+            <div class="review-name">{{review.reviewer}}</div>
+            <div class="review-date">{{review.date}}</div>
+            <div class="divider"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
